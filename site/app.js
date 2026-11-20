@@ -73,85 +73,124 @@
   }
 
   // ------------------------------------------------------------ 日報
-  function headline(r) {
+  const PERSONA = {
+    A: { nick: "心急型", line: "一見股價升穿近 1 個月高位就追入，跌少少就止蝕走人。交易最多。" },
+    B: { nick: "穩陣型", line: "等股價升勢確認、明顯跑贏大市先入場，揸得比較耐。" },
+    C: { nick: "耐性型", line: "等股價喺高位附近橫行整固，一升穿上限先買，想捕捉大升浪。" },
+  };
+  const PLAIN = {
+    "流動性": "成交太少", "突破": "未升穿近期高位", "量能": "成交量未夠大", "趨勢": "走勢未夠強",
+    "相對強度": "表現跑輸大市", "整固箱體": "未有橫行整固", "接近 52 週高位": "離一年高位太遠",
+  };
+  const plainFail = (arr) => arr.map((x) => PLAIN[x] || x).join("、");
+
+  function todaySentence(r) {
+    const live = r.experts.some((e) => e.live);
     const parts = r.experts.map((e) => {
-      if (!e.live) return null;
-      const b = e.live.orders.buys.map((o) => o.symbol), s = e.live.orders.sells.map((o) => o.symbol);
-      const t = [];
-      if (s.length) t.push("賣 " + s.join("、"));
-      if (b.length) t.push("買 " + b.join("、"));
-      return `${e.id} ${t.length ? t.join("，") : "不變"}`;
-    }).filter(Boolean);
-    return parts.length ? "明日：" + parts.join("；") + "。" : "";
+      const nick = `${e.id}（${PERSONA[e.id].nick}）`;
+      if (live && e.live) {
+        const b = e.live.orders.buys.map((o) => o.symbol), s = e.live.orders.sells.map((o) => o.symbol);
+        const t = [];
+        if (s.length) t.push("賣出 " + s.join("、"));
+        if (b.length) t.push("買入 " + b.join("、"));
+        return `${nick}${t.length ? "明日會" + t.join("，") : "明日冇動作"}`;
+      }
+      const sig = e.today.signals;
+      return `${nick}${sig.length ? "今日揀中 " + sig.join("、") : "今日冇揀中任何股票"}`;
+    });
+    return parts;
   }
 
   function journal(r) {
     const live = r.experts.some((e) => e.live);
     const reg = r.regime;
-    const chips = [
-      `<span class="chip ${reg.ok ? "good" : "bad"}">${esc(r.benchmark)} <b>${num(reg.close)}</b> ${reg.ok ? "高於" : "低於"} MA200 ${num(reg.ma200)} · ${reg.ok ? "正常注碼" : "新倉注碼減半"}</span>`,
-      r.fx ? `<span class="chip">USD/CAD <b>${r.fx.toFixed(4)}</b></span>` : "",
-      `<span class="chip">候選池 <b>${r.universe.ok}</b> / ${r.universe.total} 隻</span>`,
-    ].join("");
     let h = `<section class="hero">
       <div class="eyebrow">${esc(r.label)} · ${r.data_date} 收市後</div>
-      <h1>${live ? esc(headline(r)) || "今日冇新指令。" : `實盤模擬將於 ${r.live_start} 開始`}</h1>
-      <p class="sub">${live ? `由 ${r.live_start} 起，三位專家各以 CAD $3,000 獨立模擬；每日收市後決定，翌日開市執行。` : "開始之前，可以先睇「回測」頁，了解三套策略喺過去幾年嘅表現。下面係今日嘅掃描結果。"}</p>
-      <div class="chips">${chips}</div></section>`;
+      <h1>${live ? "今日三位專家點做？" : "今日三位專家睇中咩？"}</h1>
+      <ul class="today">${todaySentence(r).map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+      ${live ? "" : `<p class="sub">正式模擬由 <b>${r.live_start}</b> 開始：每位專家各有 CAD $3,000 虛擬本金，之後每日收市後自動決定買賣，結果會記錄喺呢度。</p>`}
+      <div class="chips"><span class="chip ${reg.ok ? "good" : "bad"}">大市狀態：<b>${reg.ok ? "正常" : "偏弱"}</b>（${esc(r.benchmark)} ${reg.ok ? "高於" : "低於"}過去 200 日平均價${reg.ok ? "" : "，新買入只用一半注碼"}）</span>${r.fx ? `<span class="chip">美元兌加元 <b>${r.fx.toFixed(4)}</b></span>` : ""}</div>
+    </section>`;
 
-    h += `<div class="grid3">${r.experts.map((e) => expertCard(e, r)).join("")}</div>`;
+    h += `<details class="guide"><summary>第一次嚟？點樣睇呢頁</summary><ul>
+      <li>Stocklab 係一個<b>紙上模擬實驗</b>：三位「專家」其實係三套電腦規則，每位有 CAD $3,000 虛擬本金，冇用真錢。</li>
+      <li>每個交易日收市後，系統會自動掃描 ${r.universe.total} 隻股票，揀出符合規則嘅，翌日開市「買入」；跌穿止蝕位就「賣出」。</li>
+      <li>最重要係睇下面嘅<b>排行榜</b>：三位專家有冇贏到「乜都唔做，直接買 ${esc(r.benchmark)}」。</li>
+      <li>「觀察名單」係就快合格、但仲差少少嘅股票，方便你預早留意。</li></ul></details>`;
+
+    h += `<h2>${live ? "排行榜：實盤模擬至今" : "排行榜：如果 2018 年開始放 $3,000"}</h2>${leaderboard(r, live)}`;
+    h += `<h2>三位專家</h2><div class="grid3">${r.experts.map((e) => expertCard(e, r)).join("")}</div>`;
 
     if (live) {
       const e0 = r.experts.find((e) => e.live);
-      if (e0.live.curve.length > 1) {
-        h += `<h2>模擬淨值（CAD）</h2><div class="card">${chartHTML(r.experts, "live", r.benchmark)}</div>`;
-      }
-      h += `<h2>交易日誌</h2><div class="card">${timeline(r)}</div>`;
+      if (e0.live.curve.length > 1) h += `<h2>資金變化（CAD）</h2><div class="card">${chartHTML(r.experts, "live", r.benchmark)}</div>`;
+      h += `<h2>買賣紀錄</h2><div class="card">${timeline(r)}</div>`;
     }
     return h;
   }
 
+  function leaderboard(r, live) {
+    const rows = r.experts.map((e) => {
+      const s = live && e.live ? e.live.stats : e.backtest.stats;
+      return { id: e.id, name: `${e.id} · ${PERSONA[e.id].nick}`, final: s.final_cad, ret: s.total_return, dd: s.max_drawdown, color: COLORS[e.id] };
+    });
+    const s0 = live && r.experts[0].live ? r.experts[0].live.stats : r.experts[0].backtest.stats;
+    rows.push({ id: "bench", name: `懶人法：直接買 ${r.benchmark}`, final: 3000 * (1 + s0.bench_return), ret: s0.bench_return, dd: null, color: COLORS.bench });
+    rows.sort((a, b) => b.final - a.final);
+    const max = Math.max(...rows.map((x) => x.final), 3000);
+    const best = rows[0];
+    const benchRow = rows.find((x) => x.id === "bench");
+    const beat = rows.filter((x) => x.id !== "bench" && x.final > benchRow.final).map((x) => x.id);
+    const verdict = beat.length
+      ? `${beat.join("、")} 贏咗直接買 ${r.benchmark}。`
+      : `暫時冇一位專家贏到直接買 ${r.benchmark}。`;
+    return `<div class="card">
+      <p class="verdict">${esc(verdict)}${live ? "" : `<span class="muted">（${s0.start} 至 ${s0.end} 歷史回測）</span>`}</p>
+      ${rows.map((x, i) => `<div class="lb-row">
+        <div class="lb-rank">${i + 1}</div>
+        <div class="lb-name"><span class="dot" style="background:${x.color}"></span>${esc(x.name)}</div>
+        <div class="lb-bar"><span style="width:${(x.final / max) * 100}%;background:${x.color}"></span></div>
+        <div class="lb-val"><b>${money(x.final)}</b> <span class="${cls(x.ret)}">${pct(x.ret, 0)}</span></div>
+      </div>`).join("")}
+      <p class="small muted" style="margin:10px 0 0">起始各 $3,000（加元）。${live ? "" : "回測只供參考，唔代表將來。"}<a href="#backtest/${r.market}">睇詳細數據 →</a></p>
+    </div>`;
+  }
+
   function expertCard(e, r) {
+    const P = PERSONA[e.id];
     const head = `<div class="ex-head"><span class="badge" style="background:${COLORS[e.id]}">${e.id}</span>
-      <div><div class="nm">${esc(e.name)}</div><div class="en">${esc(e.en)} · ${esc(e.tag)}</div></div></div>`;
+      <div><div class="nm">${P.nick}</div><div class="en">${esc(e.name)}</div></div></div>
+      <p class="small persona">${P.line}</p>`;
     let body = "";
     if (e.live) {
-      const L = e.live, st = L.stats;
-      body += `<div class="big">${money(L.equity_cad, 2)}</div>
-        <div class="kv"><span>總回報</span><b class="${cls(L.return_pct)}">${pct(L.return_pct, 2)}</b></div>
-        <div class="kv"><span>同期 ${esc(r.benchmark)}</span><b class="${cls(st.bench_return)}">${pct(st.bench_return, 2)}</b></div>
-        <div class="kv"><span>已平倉交易</span><b>${st.trades}${st.trades ? ` · 勝率 ${pct(st.win_rate, 0, false)}` : ""}</b></div>
-        <div class="kv"><span>現金</span><b>${money(L.cash_cad)} CAD</b></div>`;
-      body += `<div class="sec"><div class="sec-t">持倉</div>${L.positions.length ? L.positions.map((p) => `
-        <div class="row"><span><span class="sym">${esc(p.symbol)}</span> <span class="muted">${num(p.shares, 3)} 股 @ ${num(p.entry)}</span></span>
-        <span><b class="${cls(p.pnl_pct)}">${pct(p.pnl_pct)}</b> <span class="muted">止損 ${num(p.stop)}</span>${p.exiting ? ' <span class="tag sell">明日賣</span>' : ""}</span></div>`).join("") : '<div class="empty">全現金</div>'}</div>`;
+      const L = e.live;
+      body += `<div class="kv"><span>而家總值</span><b>${money(L.equity_cad, 2)}</b></div>
+        <div class="kv"><span>賺蝕</span><b class="${cls(L.return_pct)}">${pct(L.return_pct, 2)}</b></div>`;
+      body += `<div class="sec"><div class="sec-t">而家手上</div>${L.positions.length ? L.positions.map((p) => `
+        <div class="row"><span class="sym">${esc(p.symbol)}</span>
+        <span><b class="${cls(p.pnl_pct)}">${p.pnl_pct >= 0 ? "賺" : "蝕"} ${pct(Math.abs(p.pnl_pct), 1, false)}</b>${p.exiting ? ' <span class="tag sell">明日賣</span>' : ""}</span></div>`).join("") + `<div class="small muted">另有現金 ${money(L.cash_cad)}</div>` : '<div class="empty">全部係現金，冇持股</div>'}</div>`;
       const o = L.orders;
-      body += `<div class="sec"><div class="sec-t">明日開市指令</div>${o.buys.length + o.sells.length ? [
-        ...o.sells.map((x) => `<div class="row"><span><span class="tag sell">賣</span> <span class="sym">${esc(x.symbol)}</span></span><span class="muted small">${esc(x.reason)}</span></div>`),
-        ...o.buys.map((x) => `<div class="row"><span><span class="tag buy">買</span> <span class="sym">${esc(x.symbol)}</span></span><span class="muted small">開市價 ≤ ${num(x.signal_close * (1 + e.rules.max_gap))}${x.half ? " · 半注" : ""}</span></div>`),
-      ].join("") : '<div class="empty">冇</div>'}</div>`;
+      body += `<div class="sec"><div class="sec-t">明日打算</div>${o.buys.length + o.sells.length ? [
+        ...o.sells.map((x) => `<div class="row"><span><span class="tag sell">賣</span> <span class="sym">${esc(x.symbol)}</span></span><span class="muted small">跌穿止蝕位</span></div>`),
+        ...o.buys.map((x) => `<div class="row"><span><span class="tag buy">買</span> <span class="sym">${esc(x.symbol)}</span></span><span class="muted small">${x.half ? "大市弱，用半注" : "開市價唔太高就買"}</span></div>`),
+      ].join("") : '<div class="empty">冇動作，繼續持有</div>'}</div>`;
     } else {
-      const bs = e.backtest.stats;
-      body += `<p class="small muted">${esc(e.desc)}</p>
-        <div class="kv"><span>回測年化回報</span><b class="${cls(bs.cagr)}">${pct(bs.cagr)}</b></div>
-        <div class="kv"><span>最大回撤</span><b class="neg">${pct(bs.max_drawdown, 1, false)}</b></div>
-        <div class="kv"><span>每年交易</span><b>${bs.trades_per_year ?? "—"} 次</b></div>`;
+      const sig = e.today.signals;
+      body += `<div class="sec"><div class="sec-t">今日揀中</div>${sig.length ? `<div><b>${sig.map(esc).join("、")}</b></div><div class="small muted">如果模擬已經開始，明日開市會考慮買入</div>` : '<div class="empty">冇，今日冇股票符合條件</div>'}</div>`;
     }
-    const sig = e.today.signals;
-    body += `<div class="sec"><div class="sec-t">今日合格訊號（${sig.length}）</div>${sig.length ? `<div class="small">${sig.map(esc).join("、")}</div>` : '<div class="empty">冇</div>'}</div>`;
     const nm = e.today.near_misses.filter((x) => x.failed.length).slice(0, 4);
-    if (nm.length) body += `<div class="sec"><div class="sec-t">差一步</div>${nm.map((x) => `<div class="row"><span class="sym">${esc(x.symbol)}</span><span class="muted small">未過：${esc(x.failed.join("、"))}</span></div>`).join("")}</div>`;
+    body += `<div class="sec"><div class="sec-t">觀察名單（就快合格）</div>${nm.length ? nm.map((x) => `<div class="row"><span class="sym">${esc(x.symbol)}</span><span class="muted small">差：${esc(plainFail(x.failed))}</span></div>`).join("") : '<div class="empty">冇</div>'}</div>`;
     return `<div class="card">${head}${body}</div>`;
   }
 
   function evText(id, ev) {
     const b = (s) => `<b>${id} ${s}</b>`;
     switch (ev.type) {
-      case "buy": return `${b("買入 " + esc(ev.symbol))} ${num(ev.shares, 3)} 股 @ ${num(ev.price)}，金額 ${num(ev.value)}，止損 ${num(ev.stop)}，計劃風險 ${num(ev.risk)}${ev.half ? "（大市弱，半注）" : ""}`;
-      case "sell": return `${b("賣出 " + esc(ev.symbol))} @ ${num(ev.price)}，盈虧 <span class="${cls(ev.pnl)}">${num(ev.pnl)}（${ev.r > 0 ? "+" : ""}${ev.r}R）</span> · ${esc(ev.reason)}`;
+      case "buy": return `${b("買入 " + esc(ev.symbol))} $${num(ev.value)}（每股 ${num(ev.price)}），跌穿 ${num(ev.stop)} 就止蝕${ev.half ? "，大市弱用半注" : ""}`;
+      case "sell": { const p = ev.pnl / (ev.price * ev.shares - ev.pnl); return `${b("賣出 " + esc(ev.symbol))}，${ev.pnl >= 0 ? "賺" : "蝕"} <span class="${cls(ev.pnl)}">$${num(Math.abs(ev.pnl))}（${pct(p)}）</span> · <span class="muted">${esc(ev.reason)}</span>`; }
       case "skip": return `${b("放棄 " + esc(ev.symbol))}：${esc(ev.reason)}`;
-      case "signal": return `${b("訊號 " + esc(ev.symbol))} 收市 ${num(ev.close)}，排名第 ${ev.rank} → 明日開市買入`;
-      case "exit_signal": return `${b("安排賣出 " + esc(ev.symbol))}：${esc(ev.reason)}`;
+      case "signal": return `${b("揀中 " + esc(ev.symbol))}，明日開市買入`;
+      case "exit_signal": return `${b("決定賣出 " + esc(ev.symbol))}，明日開市執行 · <span class="muted">${esc(ev.reason)}</span>`;
       case "signal_unfilled": return `<span class="muted">${id} 訊號 ${esc(ev.symbol)}：${esc(ev.reason)}</span>`;
       case "fx": return `<span class="muted">${id}：${esc(ev.text)}</span>`;
       default: return "";
@@ -164,7 +203,7 @@
       const list = (byDate[d.date] ||= []);
       list.push(...d.events.filter((ev) => ev.type !== "signal_unfilled").map((ev) => evText(e.id, ev)));
       const unf = d.events.filter((ev) => ev.type === "signal_unfilled").map((ev) => ev.symbol);
-      if (unf.length) list.push(`<span class="muted">${e.id} 另有 ${unf.length} 個合格訊號因持倉已滿未採用：${esc(unf.join("、"))}</span>`);
+      if (unf.length) list.push(`<span class="muted">${e.id} 仲揀中 ${unf.length} 隻，但已經揸滿 3 隻買唔落：${esc(unf.join("、"))}</span>`);
     }));
     const dates = Object.keys(byDate).sort().reverse().slice(0, 20);
     if (!dates.length) return '<div class="empty">暫時未有紀錄</div>';
@@ -174,28 +213,34 @@
   // ------------------------------------------------------------ 回測
   function backtest(r) {
     const s0 = r.experts[0].backtest.stats;
-    const rows = r.experts.map((e) => {
+    const simple = r.experts.map((e) => {
       const s = e.backtest.stats;
-      return `<tr><td><span class="dot" style="background:${COLORS[e.id]}"></span>${e.id} · ${esc(e.name)}</td>
-        <td class="${cls(s.cagr)}">${pct(s.cagr)}</td><td class="neg">${pct(s.max_drawdown, 1, false)}</td>
-        <td>${money(s.final_cad)}</td><td>${s.trades}</td><td>${s.trades_per_year ?? "—"}</td>
-        <td>${s.win_rate != null ? pct(s.win_rate, 0, false) : "—"}</td><td>${s.avg_r ?? "—"}</td>
-        <td>${s.avg_win_r ?? "—"} / ${s.avg_loss_r ?? "—"}</td><td>${s.profit_factor ?? "—"}</td><td>${s.avg_days ?? "—"}</td></tr>`;
+      return `<tr><td><span class="dot" style="background:${COLORS[e.id]}"></span>${e.id} · ${PERSONA[e.id].nick}</td>
+        <td><b>${money(s.final_cad)}</b></td><td class="${cls(s.cagr)}">${pct(s.cagr)}</td><td class="neg">${pct(s.max_drawdown, 0, false)}</td>
+        <td>${s.trades_per_year ?? "—"} 次</td><td>${s.win_rate != null ? pct(s.win_rate, 0, false) : "—"}</td></tr>`;
+    }).join("");
+    const adv = r.experts.map((e) => {
+      const s = e.backtest.stats;
+      return `<tr><td>${e.id}</td><td>${s.trades}</td><td>${s.avg_r ?? "—"}</td><td>${s.avg_win_r ?? "—"} / ${s.avg_loss_r ?? "—"}</td><td>${s.profit_factor ?? "—"}</td><td>${s.avg_days ?? "—"} 日</td></tr>`;
     }).join("");
     const benchFinal = 3000 * (1 + s0.bench_return);
-    let h = `<section class="hero"><div class="eyebrow">${esc(r.label)} · 回測 ${s0.start} 至 ${s0.end}</div>
-      <h1>三套策略嘅歷史表現</h1>
-      <p class="sub">用同一套規則、同一套成本假設，喺歷史數據上逐日重播。起始本金各 CAD $3,000，基準為買入持有 ${esc(r.benchmark)}${r.fx ? "（已換算成 CAD）" : ""}。</p></section>
+    let h = `<section class="hero"><div class="eyebrow">${esc(r.label)} · 歷史回測 ${s0.start} 至 ${s0.end}</div>
+      <h1>如果由 2018 年開始用呢三套規則，結果會點？</h1>
+      <p class="sub">將同一套規則放返去過去幾年嘅真實股價度逐日重演，計埋交易成本。每位起始 CAD $3,000，同「直接買 ${esc(r.benchmark)} 唔郁」比較。</p></section>
       <div class="card tscroll"><table>
-      <thead><tr><th>策略</th><th>年化回報</th><th>最大回撤</th><th>期末淨值</th><th>交易數</th><th>每年交易</th><th>勝率</th><th>平均 R</th><th>贏 / 輸 R</th><th>盈虧比</th><th>平均持有日</th></tr></thead>
-      <tbody>${rows}<tr><td><span class="dot" style="background:${COLORS.bench}"></span>${esc(r.benchmark)} 買入持有</td>
-      <td class="${cls(s0.bench_cagr)}">${pct(s0.bench_cagr)}</td><td>—</td><td>${money(benchFinal)}</td><td colspan="7" class="muted" style="text-align:left">參考基準</td></tr></tbody></table></div>`;
-    h += `<h2>淨值走勢（CAD）</h2><div class="card">${chartHTML(r.experts, "backtest", r.benchmark)}</div>`;
+      <thead><tr><th>專家</th><th>$3,000 變成</th><th>平均每年回報</th><th>最差時跌咗</th><th>一年買賣</th><th>贏錢交易比例</th></tr></thead>
+      <tbody>${simple}<tr><td><span class="dot" style="background:${COLORS.bench}"></span>懶人法：直接買 ${esc(r.benchmark)}</td>
+      <td><b>${money(benchFinal)}</b></td><td class="${cls(s0.bench_cagr)}">${pct(s0.bench_cagr)}</td><td class="muted">—</td><td>0 次</td><td class="muted">—</td></tr></tbody></table>
+      <p class="small muted" style="margin:10px 4px 0">「最差時跌咗」：由最高位計起，曾經最多跌咗幾多。數字越細，過程越安心。</p></div>
+      <details class="card" style="margin-top:10px"><summary>進階數據</summary><div class="tscroll"><table>
+      <thead><tr><th>專家</th><th>總交易數</th><th>平均 R</th><th>平均贏 / 輸（R）</th><th>盈虧比</th><th>平均持有</th></tr></thead><tbody>${adv}</tbody></table></div>
+      <p class="small muted">R ＝ 每筆交易預先計劃嘅風險金額。平均 R 大過 0 即係扣除成本後長遠有錢賺；盈虧比 ＝ 總賺 ÷ 總蝕。</p></details>`;
+    h += `<h2>資金變化（CAD）</h2><div class="card">${chartHTML(r.experts, "backtest", r.benchmark)}</div>`;
     const yrs = r.experts[0].backtest.yearly;
-    h += `<h2>逐年回報</h2><div class="card tscroll"><table><thead><tr><th>年份</th>${r.experts.map((e) => `<th>${e.id}</th>`).join("")}<th>${esc(r.benchmark)}</th></tr></thead><tbody>${
+    h += `<h2>每年回報</h2><div class="card tscroll"><table><thead><tr><th>年份</th>${r.experts.map((e) => `<th>${e.id}</th>`).join("")}<th>直接買 ${esc(r.benchmark)}</th></tr></thead><tbody>${
       yrs.map((y, i) => `<tr><td>${y[0]}</td>${r.experts.map((e) => { const v = e.backtest.yearly[i]?.[1]; return `<td class="${cls(v)}">${pct(v)}</td>`; }).join("")}<td class="${cls(y[2])}">${pct(y[2])}</td></tr>`).join("")
     }</tbody></table></div>`;
-    h += `<h2>最近嘅回測交易</h2>${r.experts.map((e) => `<details class="card" style="margin-bottom:10px"><summary><span class="dot" style="background:${COLORS[e.id]}"></span>${e.id} · ${esc(e.name)}（最近 ${e.backtest.recent_trades.length} 筆）</summary>
+    h += `<h2>最近嘅模擬交易</h2>${r.experts.map((e) => `<details class="card" style="margin-bottom:10px"><summary><span class="dot" style="background:${COLORS[e.id]}"></span>${e.id} · ${esc(e.name)}（最近 ${e.backtest.recent_trades.length} 筆）</summary>
       <div class="tscroll"><table><thead><tr><th>股票</th><th>入場</th><th>出場</th><th>買入</th><th>賣出</th><th>盈虧</th><th>R</th><th>日數</th><th style="text-align:left">原因</th></tr></thead><tbody>${
         e.backtest.recent_trades.slice().reverse().map((t) => `<tr><td>${esc(t.symbol)}</td><td>${t.entry_date}</td><td>${t.exit_date}</td><td>${num(t.entry)}</td><td>${num(t.exit)}</td><td class="${cls(t.pnl)}">${num(t.pnl)}</td><td class="${cls(t.r)}">${t.r}</td><td>${t.days}</td><td style="text-align:left" class="muted">${esc(t.reason)}</td></tr>`).join("")
       }</tbody></table></div></details>`).join("")}`;
@@ -246,7 +291,7 @@
     const dates = curves[0].pts.map((p) => p[0]);
     const series = curves.map((c) => ({ id: c.id, name: c.id, vals: c.pts.map((p) => p[1]) }));
     series.push({ id: "bench", name: benchName, vals: curves[0].pts.map((p) => p[2]), dash: true });
-    const legend = series.map((s) => `<span><i style="background:${COLORS[s.id]}"></i>${esc(s.id === "bench" ? benchName + " 買入持有" : s.name + " · " + experts.find((e) => e.id === s.id).name)}</span>`).join("");
+    const legend = series.map((s) => `<span><i style="background:${COLORS[s.id]}"></i>${esc(s.id === "bench" ? "直接買 " + benchName : s.name + " · " + PERSONA[s.id].nick)}</span>`).join("");
     return `<div class="legend">${legend}</div><div class="chart" data-chart='${esc(JSON.stringify({ dates, series }))}'></div>`;
   }
 
