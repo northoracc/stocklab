@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stocklab｜三專家投資日誌</title>
+<meta name="description" content="三套動能突破策略，美股及加股每日收市後模擬決策、記錄結果。模擬研究，不構成投資建議。">
+<meta name="theme-color" content="#f7f8f5">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23143d2e'/><path d='M7 22l6-7 5 4 7-10' stroke='%23f7f8f5' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#journal/us"><span class="logo">S</span><span class="bt">Stocklab</span><small>三專家投資日誌</small></a>
+    <nav class="tabs" id="tabs">
+      <a data-view="journal">日報</a>
+      <a data-view="backtest">回測</a>
+      <a data-view="rules">規則</a>
+    </nav>
+    <div class="mkt" id="mkt">
+      <button data-mkt="us">美股</button>
+      <button data-mkt="ca">加股</button>
+    </div>
+  </div>
+</header>
+<div class="wrap"><div id="banner"></div></div>
+<main class="wrap" id="main"><p class="loading">讀取中…</p></main>
+<footer class="wrap foot">
+  <p>Stocklab 係模擬投資研究，所有交易均為紙上模擬，唔構成投資建議。回測結果唔代表將來表現。</p>
+  <p id="foot-meta"></p>
+</footer>
+<noscript><p class="wrap">請啟用 JavaScript 以讀取日報。</p></noscript>
+<script src="app.js"></script>
+</body>
+</html>
