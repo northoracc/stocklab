@@ -1,0 +1,26 @@
+{
+ "start": "2026-11-23",
+ "leagues": {
+  "US": {
+   "curves": {
+    "Claude": [],
+    "ChatGPT": [],
+    "Gemini": [],
+    "Muse": []
+   },
+   "benchmark": [],
+   "trades": []
+  },
+  "CA": {
+   "curves": {
+    "Claude": [],
+    "ChatGPT": [],
+    "Gemini": [],
+    "Muse": []
+   },
+   "benchmark": [],
+   "trades": []
+  }
+ },
+ "journals": []
+}
