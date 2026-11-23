@@ -5,7 +5,7 @@
 import os
 
 # 第一晚 AI 落單嘅日期（多倫多時間）。佢哋當晚寫嘅指令會喺下一個交易日成交。
-START = os.environ.get("ARENA_START", "2026-11-23")
+START = os.environ.get("ARENA_START", "2026-11-22")
 
 PARTICIPANTS = ["Claude", "ChatGPT", "Gemini", "Muse"]
 
