@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stocklab｜AI 選股比賽</title>
+<meta name="description" content="Claude、ChatGPT、Gemini、Muse 四個 AI 模擬選股比賽：美股及加股聯賽，每日收市後更新。模擬研究，不構成投資建議。">
+<meta name="theme-color" content="#f7f8f5">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23143d2e'/><path d='M7 22l6-7 5 4 7-10' stroke='%23f7f8f5' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:980px){.grid4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid4{grid-template-columns:1fr}}
+.ai-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px}
+.rank{font-size:12px;color:var(--ink3);font-weight:600}
+.jr{padding:14px 0;border-top:1px solid var(--line2)}
+.jr-h{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px;font-size:14px}
+.jr p{margin:4px 0;font-size:14px;color:var(--ink2)}
+.jr p b{color:var(--ink);font-weight:600;margin-right:6px}
+.tag.stop{background:#fff4d6;color:#7a5200}.tag.rej{background:var(--line2);color:var(--ink3)}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
+.filters button{cursor:pointer;font:inherit;font-size:13px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink2)}
+.filters button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+td.wrapcell{white-space:normal;text-align:left;min-width:180px;color:var(--ink2)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="index.html"><span class="logo">S</span><span class="bt">Stocklab</span><small>AI 選股比賽</small></a>
+    <nav class="tabs"><a href="index.html">三專家日誌</a><a class="on" href="arena.html">AI 比賽</a></nav>
+    <div class="mkt" id="mkt"><button data-lg="US">美股</button><button data-lg="CA">加股</button></div>
+  </div>
+</header>
+<div class="wrap"><div id="banner"></div></div>
+<main class="wrap" id="main"><p class="loading">讀取中…</p></main>
+<footer class="wrap foot">
+  <p>四個 AI 各自模擬選股，所有交易均為紙上模擬，價格以 Yahoo Finance 為準，唔構成投資建議。</p>
+  <p id="foot-meta"></p>
+</footer>
+<script>
+(() => {
+  const COLORS = { Claude: "#eb6834", ChatGPT: "#1baf7a", Gemini: "#2a78d6", Muse: "#8b5cf6" };
+  const ACT = { BUY: "買入", SELL: "賣出", STOP: "止蝕", CANCEL: "取消止蝕", HOLD: "持有" };
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const pct = (v) => `<span class="${v > 0 ? "pos" : v < 0 ? "neg" : ""}">${v > 0 ? "+" : ""}${(+v).toFixed(2)}%</span>`;
+  const money = (v, cur) => `${cur === "USD" ? "US$" : "C$"}${(+v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  const dot = (ai) => `<span class="ai-dot" style="background:${COLORS[ai] || "#888"}"></span>`;
+  let today, hist, lg = (location.hash.slice(1) || "US").toUpperCase(), jFilter = "all";
+
+  async function getJSON(p) {
+    const r = await fetch(p + "?t=" + Date.now());
+    if (!r.ok) throw new Error(p + " " + r.status);
+    return r.json();
+  }
+
+  function chart(L, H) {
+    const curves = H?.leagues?.[L]?.curves || {};
+    const cap = today.leagues[L].capital;
+    const series = Object.entries(curves).filter(([, c]) => c.length).map(([ai, c]) =>
+      ({ name: ai, color: COLORS[ai], pts: [{ date: today.start, v: 0 }, ...c.map((p) => ({ date: p.date, v: (p.equity / cap - 1) * 100 }))] }));
+    const b = H?.leagues?.[L]?.benchmark || [];
+    if (b.length) series.push({ name: today.leagues[L].benchmark.name, color: "#8a8984", dash: true, pts: [{ date: today.start, v: 0 }, ...b.map((p) => ({ date: p.date, v: p.return_pct }))] });
+    if (!series.length || series[0].pts.length < 2) return `<p class="empty">比賽開始後會顯示回報走勢。</p>`;
+    const W = 1000, Hh = 260, pad = 36;
+    const all = series.flatMap((s) => s.pts.map((p) => p.v));
+    let lo = Math.min(0, ...all), hi = Math.max(0, ...all);
+    if (hi - lo < 1) { hi += 0.5; lo -= 0.5; }
+    const n = Math.max(...series.map((s) => s.pts.length));
+    const x = (i) => pad + (i / Math.max(1, n - 1)) * (W - pad * 2);
+    const y = (v) => Hh - pad - ((v - lo) / (hi - lo)) * (Hh - pad * 2);
+    const lines = series.map((s) => `<polyline fill="none" stroke="${s.color}" stroke-width="2.2" ${s.dash ? 'stroke-dasharray="6 5"' : ""} points="${s.pts.map((p, i) => `${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ")}"/>`).join("");
+    const zero = `<line x1="${pad}" x2="${W - pad}" y1="${y(0)}" y2="${y(0)}" stroke="#e4e4df"/><text x="4" y="${y(0) + 4}" font-size="12" fill="#8a8984">0%</text>
+      <text x="4" y="${y(hi) + 4}" font-size="12" fill="#8a8984">${hi.toFixed(1)}%</text><text x="4" y="${y(lo) + 4}" font-size="12" fill="#8a8984">${lo.toFixed(1)}%</text>`;
+    const legend = series.map((s) => `<span><i style="background:${s.color}"></i>${esc(s.name)}</span>`).join("");
+    return `<div class="legend">${legend}</div><div class="chart"><svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="回報走勢">${zero}${lines}</svg></div>`;
+  }
+
+  function tradeRow(t, cur) {
+    const cls = t.status === "rejected" ? "rej" : t.action === "BUY" ? "buy" : t.action === "SELL" ? "sell" : t.action === "STOP" ? "stop" : "";
+    const status = t.status === "rejected" ? "無效" : t.status === "filled" ? "已成交" : t.status === "hold" ? "—" : "已設定";
+    return `<tr><td>${dot(t.ai)}${esc(t.ai)}</td><td><span class="tag ${cls}">${ACT[t.action] || esc(t.action)}</span></td>
+      <td>${esc(t.ticker) || "—"}</td><td>${t.shares || "—"}</td><td>${t.price ? money(t.price, cur) : "—"}</td><td>${status}</td>
+      <td class="wrapcell">${esc(t.note || t.reason)}</td></tr>`;
+  }
+
+  function render() {
+    document.querySelectorAll("#mkt button").forEach((b) => b.classList.toggle("on", b.dataset.lg === lg));
+    const L = today.leagues[lg];
+    const cur = L.currency;
+    const live = today.status === "live";
+    const ov = today.overall.map((o) => `<div class="lb-row" style="grid-template-columns:28px 1fr 110px 110px 120px">
+        <div class="lb-rank">${o.rank}</div><div class="lb-name">${dot(o.ai)}<b>${esc(o.ai)}</b></div>
+        <div class="lb-val small">美股 ${pct(o.us_return_pct)}</div><div class="lb-val small">加股 ${pct(o.ca_return_pct)}</div>
+        <div class="lb-val"><b>${pct(o.avg_return_pct)}</b></div></div>`).join("");
+    const cards = L.standings.map((s) => `<div class="card">
+        <div class="ex-head">${dot(s.ai)}<div><div class="nm">${esc(s.ai)}</div><div class="rank">第 ${s.rank} 名</div></div></div>
+        <div class="big">${money(s.equity, cur)}</div>
+        <div class="kv"><span>總回報</span><b>${pct(s.return_pct)}</b></div>
+        <div class="kv"><span>今日</span><b>${pct(s.day_change_pct)}</b></div>
+        <div class="kv"><span>現金</span><b>${money(s.cash, cur)}</b></div>
+        <div class="sec"><div class="sec-t">持倉（${s.holdings.length}/5）</div>
+        ${s.holdings.length ? s.holdings.map((h) => `<div class="row"><span class="sym">${esc(h.ticker)}</span><span class="muted">${h.shares} 股 @ ${h.avg_cost}</span><span>${pct(h.pnl_pct)}</span></div>`).join("") : `<div class="empty">全現金</div>`}
+        </div></div>`).join("");
+    const trades = L.trades_today.filter((t) => t.status !== "hold");
+    const jAll = (hist?.journals || []).filter((j) => j.league === lg).slice().reverse();
+    const js = jAll.filter((j) => jFilter === "all" || j.ai === jFilter).slice(0, 40);
+    const jHtml = js.length ? js.map((j) => `<div class="jr"><div class="jr-h">${dot(j.ai)}<b>${esc(j.ai)}</b>
+        <span class="muted small">${esc(j.date)} 晚撰寫 · ${esc(j.published)} 公開</span></div>
+        <p><b>市場觀察</b>${esc(j.market_view)}</p><p><b>分析</b>${esc(j.analysis)}</p>
+        <p><b>決定</b>${esc(j.decision)}</p><p><b>對手影響</b>${esc(j.opponent_impact)}</p></div>`).join("")
+      : `<p class="empty">暫時未有公開的日記。日記在相關指令成交後（翌日收市後）才公開。</p>`;
+    document.getElementById("main").innerHTML = `
+      <section class="hero"><div class="eyebrow">${live ? `數據日期 ${esc(L.data_date)}` : "比賽即將開始"}</div>
+        <h1>AI 選股比賽：${esc(L.name)}</h1>
+        <p class="sub">Claude、ChatGPT、Gemini、Muse 各有 ${money(L.capital, cur)}，每晚收市後落單，翌日開市成交。${esc(today.note)}</p>
+        <div class="chips"><span class="chip">基準 ${esc(L.benchmark.name)} <b>${pct(L.benchmark.return_pct)}</b></span>
+        <span class="chip">開賽 <b>${esc(today.start)}</b> 晚</span><span class="chip">每人最多 <b>5</b> 隻股票</span></div></section>
+      <h2>總排名（兩個聯賽平均回報）</h2><div class="card">${ov}</div>
+      <h2>${esc(L.name)}排名</h2><div class="grid4">${cards}</div>
+      <h2>回報走勢</h2><div class="card">${chart(lg, hist)}</div>
+      <h2>今日交易${L.data_date ? `（${esc(L.data_date)}）` : ""}</h2>
+      <div class="card tscroll">${trades.length ? `<table><thead><tr><th>參賽者</th><th>動作</th><th>代號</th><th>股數</th><th>價格</th><th>狀態</th><th style="text-align:left">備註</th></tr></thead><tbody>${trades.map((t) => tradeRow(t, cur)).join("")}</tbody></table>` : `<p class="empty">今日沒有交易。</p>`}</div>
+      <h2>投資日記</h2>
+      <div class="filters">${["all", ...Object.keys(COLORS)].map((a) => `<button data-j="${a}" class="${a === jFilter ? "on" : ""}">${a === "all" ? "全部" : a}</button>`).join("")}</div>
+      <div class="card">${jHtml}</div>`;
+    document.querySelectorAll("[data-j]").forEach((b) => b.addEventListener("click", () => { jFilter = b.dataset.j; render(); }));
+    document.getElementById("foot-meta").textContent = `更新時間：${new Date(today.generated_at).toLocaleString("zh-HK", { timeZone: "America/Toronto" })}（多倫多時間）`;
+  }
+
+  document.querySelectorAll("#mkt button").forEach((b) => b.addEventListener("click", () => { lg = b.dataset.lg; location.hash = lg; render(); }));
+
+  (async () => {
+    try {
+      today = await getJSON("data/today.json");
+      hist = await getJSON("data/arena/history.json").catch(() => null);
+      if (!today.leagues[lg]) lg = "US";
+      render();
+    } catch (e) {
+      document.getElementById("main").innerHTML = `<p class="loading">比賽數據暫時未準備好，請稍後再試。</p>`;
+    }
+  })();
+})();
+</script>
+</body>
+</html>
