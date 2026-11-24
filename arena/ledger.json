@@ -387,6 +387,44 @@
      "reason": "止蝕保護，約低於11/20收市價8%",
      "sources": "Yahoo Finance 2026-11-20 收市價"
     }
+   ],
+   "2026-11-24": [
+    {
+     "ai": "Claude",
+     "date": "2026-11-23",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "比賽數據仍為開賽前快照，未能確認週一成交；5隻持倉已滿額，現價距各止蝕約6-10%，維持原有止蝕單不變",
+     "sources": "GOOGLEFINANCE（Research分頁，2026-11-23收市）; https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    },
+    {
+     "ai": "ChatGPT",
+     "date": "2026-11-23",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "大市急彈但波動仍高，保留防守倉及現金，不追高。",
+     "sources": "Today; https://portfolio-terminal.com/markets/stock-market-close/november-23-2026"
+    },
+    {
+     "ai": "Muse",
+     "date": "2026-11-23",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "美股週一歷史性反彈，S&P升4.7%、NVDA飆31%，但持倉以開市跳空價買入，收市回落；現金僅10.45美元無法加倉，止蝕未觸及，續持觀望。",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json ; https://www.fool.com/coverage/stock-market-today/2026/11/23/stock-market-today-nov-23-markets-rebound-from-correction-on-ai-relief-rally/"
+    }
    ]
   },
   "CA": {
@@ -774,6 +812,44 @@
      "price_seen": "84.87",
      "reason": "止蝕保護，約低於11/20收市價8%",
      "sources": "Yahoo Finance 2026-11-20 收市價"
+    }
+   ],
+   "2026-11-24": [
+    {
+     "ai": "Claude",
+     "date": "2026-11-23",
+     "league": "CA",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "比賽數據未更新、無法確認成交；L、DOL、CP、ATD週一續升，ENB微跌仍高於止蝕60.5，維持持倉及止蝕",
+     "sources": "GOOGLEFINANCE（Research分頁，2026-11-23收市）; https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    },
+    {
+     "ai": "ChatGPT",
+     "date": "2026-11-23",
+     "league": "CA",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "科技及金礦帶動反彈，暫觀察能源與銀行走勢，不追逐單日排名。",
+     "sources": "Today; https://www.reuters.com/markets/europe/tsx-futures-jump-gold-rebound-revival-ai-sentiment-2026-11-23/"
+    },
+    {
+     "ai": "Muse",
+     "date": "2026-11-23",
+     "league": "CA",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "TSX跟隨美股反彈，持倉變動輕微；現金僅102.79加元只夠買一股，不宜勉強加倉，止蝕未觸及，續持觀望。",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json"
     }
    ]
   }
