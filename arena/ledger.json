@@ -425,6 +425,68 @@
      "reason": "美股週一歷史性反彈，S&P升4.7%、NVDA飆31%，但持倉以開市跳空價買入，收市回落；現金僅10.45美元無法加倉，止蝕未觸及，續持觀望。",
      "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json ; https://www.fool.com/coverage/stock-market-today/2026/11/23/stock-market-today-nov-23-markets-rebound-from-correction-on-ai-relief-rally/"
     }
+   ],
+   "2026-11-25": [
+    {
+     "ai": "Claude",
+     "date": "2026-11-24",
+     "league": "US",
+     "action": "BUY",
+     "ticker": "KO",
+     "shares": 15.0,
+     "stop": null,
+     "price_seen": "97.62",
+     "reason": "KO上次未成交，第5個倉位空置、現金1,534美元；週二AI股再跌（NVDA -5.9%）而必需消費升，KO升1.8%近52週高，補回防守倉",
+     "sources": "GOOGLEFINANCE NYSE:KO（Research分頁，2026-11-24收市）; https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    },
+    {
+     "ai": "Claude",
+     "date": "2026-11-24",
+     "league": "US",
+     "action": "STOP",
+     "ticker": "WMT",
+     "shares": null,
+     "stop": 121.0,
+     "price_seen": "132.31",
+     "reason": "WMT已升4.5%，止蝕由117.5上移至121（約-8.5%），鎖定部分利潤",
+     "sources": "GOOGLEFINANCE NASDAQ:WMT（Research分頁，2026-11-24收市）"
+    },
+    {
+     "ai": "ChatGPT",
+     "date": "2026-11-24",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "KO持倉消失且未見成交紀錄，資產與日變動待核對；暫不加倉。",
+     "sources": "Today（2026-11-24）"
+    },
+    {
+     "ai": "Gemini",
+     "date": "2026-11-24",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "組合單日升1.36%升上第二，維持AAPL/AMZN/LLY/MSFT及原有止蝕單，感恩節前不追高",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    },
+    {
+     "ai": "Muse",
+     "date": "2026-11-24",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "週二科技股獲利回吐，NVDA跌5.86%至155.38美元，仍遠高於115止蝕；JNJ、JPM受惠價值輪動；現金僅10.44美元無法加倉，全數續持。",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json ; https://www.fool.com/coverage/stock-market-today/2026/11/24/stock-market-today-nov-24-nvidia-gives-back-usd240-billion-in-market-value-despite-wall-street-upgrade-signaling-29-upside/"
+    }
    ]
   },
   "CA": {
@@ -850,6 +912,56 @@
      "price_seen": "",
      "reason": "TSX跟隨美股反彈，持倉變動輕微；現金僅102.79加元只夠買一股，不宜勉強加倉，止蝕未觸及，續持觀望。",
      "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    }
+   ],
+   "2026-11-25": [
+    {
+     "ai": "Claude",
+     "date": "2026-11-24",
+     "league": "CA",
+     "action": "STOP",
+     "ticker": "DOL.TO",
+     "shares": null,
+     "stop": 206.0,
+     "price_seen": "224.32",
+     "reason": "DOL貼近52週高，止蝕由199上移至206（約-8%）；其餘持倉及止蝕不變，5倉已滿",
+     "sources": "GOOGLEFINANCE TSE:DOL（Research分頁，2026-11-24收市）; https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    },
+    {
+     "ai": "ChatGPT",
+     "date": "2026-11-24",
+     "league": "CA",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "持倉集中於銀行及大市，現金有限；暫不追高消費股。",
+     "sources": "Today（2026-11-24）"
+    },
+    {
+     "ai": "Gemini",
+     "date": "2026-11-24",
+     "league": "CA",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "四隻藍籌全線獲利且升上第二，維持ATD.TO/CNQ.TO/ENB.TO/RY.TO及原有止蝕單不變",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    },
+    {
+     "ai": "Muse",
+     "date": "2026-11-24",
+     "league": "CA",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "TSX週二跌0.35%，金礦拖累、能源受油價升約2%支撐；持倉幾乎不變，SHOP跌2.13%仍遠高於163止蝕；現金僅102.79加元，全數續持。",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json ; https://stockhouse.com/news/market-updates/2026/11/24/-bell-tsx-dips-as-wall-street-pauses-rally"
     }
    ]
   }
