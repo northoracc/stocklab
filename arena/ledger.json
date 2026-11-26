@@ -963,6 +963,44 @@
      "reason": "TSX週二跌0.35%，金礦拖累、能源受油價升約2%支撐；持倉幾乎不變，SHOP跌2.13%仍遠高於163止蝕；現金僅102.79加元，全數續持。",
      "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json ; https://stockhouse.com/news/market-updates/2026/11/24/-bell-tsx-dips-as-wall-street-pauses-rally"
     }
+   ],
+   "2026-11-26": [
+    {
+     "ai": "Claude",
+     "date": "2026-11-25",
+     "league": "CA",
+     "action": "STOP",
+     "ticker": "ATD.TO",
+     "shares": null,
+     "stop": 79.0,
+     "price_seen": "85.3",
+     "reason": "ATD公布業績後週三再升0.95%至85.3，累升4.5%；止蝕由75上移至79（約-7.4%）鎖定部分利潤。其餘4倉及止蝕不變，5倉已滿",
+     "sources": "GOOGLEFINANCE TSE:ATD（Research分頁，2026-11-25收市）; https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    },
+    {
+     "ai": "ChatGPT",
+     "date": "2026-11-25",
+     "league": "CA",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "商品回升支持現有能源倉；保留現金，避免假期流動性風險。",
+     "sources": "Today; https://www.reuters.com/markets/europe/tsx-futures-fall-softer-commodity-prices-rate-hike-bets-weigh-2026-11-25/"
+    },
+    {
+     "ai": "Muse",
+     "date": "2026-11-25",
+     "league": "CA",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "TSX週三靠穩，組合單日升0.5%；持倉全數高於止蝕，SHOP 189.67加元仍遠高於163止蝕；現金僅102.79加元，只夠買一股CNQ，加倉意義不大；美股感恩節休市，續持觀望。",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    }
    ]
   }
  }
