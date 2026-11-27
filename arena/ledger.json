@@ -487,6 +487,80 @@
      "reason": "週二科技股獲利回吐，NVDA跌5.86%至155.38美元，仍遠高於115止蝕；JNJ、JPM受惠價值輪動；現金僅10.44美元無法加倉，全數續持。",
      "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json ; https://www.fool.com/coverage/stock-market-today/2026/11/24/stock-market-today-nov-24-nvidia-gives-back-usd240-billion-in-market-value-despite-wall-street-upgrade-signaling-29-upside/"
     }
+   ],
+   "2026-11-27": [
+    {
+     "ai": "Claude",
+     "date": "2026-11-25",
+     "league": "US",
+     "action": "STOP",
+     "ticker": "AAPL",
+     "shares": null,
+     "stop": 328.0,
+     "price_seen": "355.58",
+     "reason": "AAPL收355.58貼近52週高360.83，已獲利2.2%；止蝕由315上移至328（約-7.8%）。其餘4倉及止蝕不變，現金僅97美元，感恩節後週五半日市不加倉",
+     "sources": "GOOGLEFINANCE NASDAQ:AAPL（Research分頁，2026-11-25收市）; https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    },
+    {
+     "ai": "Claude",
+     "date": "2026-11-26",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "感恩節休市，週五半日市流動性低；5倉已滿、現金僅97美元。AAPL 355.58、WMT 131.94、KO 97.59、JNJ 273.94、XOM 158.08全部高於止蝕，維持全部持倉及止蝕單不變",
+     "sources": "GOOGLEFINANCE（Research分頁，2026-11-25美股收市）; https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    },
+    {
+     "ai": "ChatGPT",
+     "date": "2026-11-25",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "KO持倉已恢復；科技股波動及感恩節休市，維持防守配置。",
+     "sources": "Today; https://finance.yahoo.com/markets/stocks/articles/stock-markets-closed-thanksgiving-black-142922352.html"
+    },
+    {
+     "ai": "ChatGPT",
+     "date": "2026-11-26",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "感恩節休市，翌日短市；維持倉位，等待正常交易量。",
+     "sources": "Today（2026-11-26）"
+    },
+    {
+     "ai": "Muse",
+     "date": "2026-11-25",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "週三美股早盤急跌後收復大半失地，S&P跌0.25%、納指跌0.62%，NVDA盤中跌逾9%收市跌3.91%至149.30美元，仍遠高於115止蝕；AMZN跌3.1%；現金僅10.44美元無法加倉，感恩節美股休市，週五半日市不追沽，全數續持。",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json ; https://www.fool.com/coverage/stock-market-today/2026/11/25/stock-market-today-nov-25-nvidia-slides-3-9-as-the-market-considers-hot-pce-inflation-data-and-new-tariff-proposals/"
+    },
+    {
+     "ai": "Muse",
+     "date": "2026-11-26",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "感恩節美股休市，週五僅半日市；NVDA收149.30美元仍遠高於115止蝕，AMZN、MSFT跌幅收窄；現金僅10.44美元無法加倉，全數續持。",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    }
    ]
   },
   "CA": {
@@ -999,6 +1073,44 @@
      "stop": null,
      "price_seen": "",
      "reason": "TSX週三靠穩，組合單日升0.5%；持倉全數高於止蝕，SHOP 189.67加元仍遠高於163止蝕；現金僅102.79加元，只夠買一股CNQ，加倉意義不大；美股感恩節休市，續持觀望。",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    }
+   ],
+   "2026-11-27": [
+    {
+     "ai": "Claude",
+     "date": "2026-11-26",
+     "league": "CA",
+     "action": "STOP",
+     "ticker": "CP.TO",
+     "shares": null,
+     "stop": 123.0,
+     "price_seen": "133.04",
+     "reason": "CP收133.04貼近52週高136.04，累升約2.3%；止蝕由118.5上移至123（約-7.5%）鎖定部分利潤。其餘4倉及止蝕不變，5倉已滿",
+     "sources": "GOOGLEFINANCE TSE:CP（Research分頁，2026-11-26收市）; https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    },
+    {
+     "ai": "ChatGPT",
+     "date": "2026-11-26",
+     "league": "CA",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "資源股帶動大市，現有能源倉受惠；候選股Yahoo收市價未核實，暫不加倉。",
+     "sources": "Today; https://www.reuters.com/markets/europe/tsx-futures-flat-copper-silver-rebound-offset-oil-slip-2026-11-26/"
+    },
+    {
+     "ai": "Muse",
+     "date": "2026-11-26",
+     "league": "CA",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": null,
+     "stop": null,
+     "price_seen": "",
+     "reason": "TSX週四靠穩，組合單日升0.64%排第三；五隻持倉全數高於止蝕，現金僅102.79加元只夠買一股CNQ，加倉意義不大；假期後再部署，全數續持。",
      "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json"
     }
    ]

@@ -15,6 +15,10 @@
      {
       "date": "2026-11-25",
       "equity": 5098.23
+     },
+     {
+      "date": "2026-11-27",
+      "equity": 5128.13
      }
     ],
     "ChatGPT": [
@@ -29,6 +33,10 @@
      {
       "date": "2026-11-25",
       "equity": 5025.29
+     },
+     {
+      "date": "2026-11-27",
+      "equity": 5065.98
      }
     ],
     "Gemini": [
@@ -43,6 +51,10 @@
      {
       "date": "2026-11-25",
       "equity": 4997.9
+     },
+     {
+      "date": "2026-11-27",
+      "equity": 5038.04
      }
     ],
     "Muse": [
@@ -57,6 +69,10 @@
      {
       "date": "2026-11-25",
       "equity": 4785.16
+     },
+     {
+      "date": "2026-11-27",
+      "equity": 4861.46
      }
     ]
    },
@@ -72,6 +88,10 @@
     {
      "date": "2026-11-25",
      "return_pct": 3.94
+    },
+    {
+     "date": "2026-11-27",
+     "return_pct": 5.6
     }
    ],
    "trades": [
@@ -449,6 +469,81 @@
      "order_date": "2026-11-24",
      "reason": "週二科技股獲利回吐，NVDA跌5.86%至155.38美元，仍遠高於115止蝕；JNJ、JPM受惠價值輪動；現金僅10.44美元無法加倉，全數續持。",
      "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json ; https://www.fool.com/coverage/stock-market-today/2026/11/24/stock-market-today-nov-24-nvidia-gives-back-usd240-billion-in-market-value-despite-wall-street-upgrade-signaling-29-upside/"
+    },
+    {
+     "date": "2026-11-27",
+     "ai": "Claude",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": 0,
+     "price": null,
+     "value": null,
+     "status": "hold",
+     "note": "",
+     "order_date": "2026-11-26",
+     "reason": "感恩節休市，週五半日市流動性低；5倉已滿、現金僅97美元。AAPL 355.58、WMT 131.94、KO 97.59、JNJ 273.94、XOM 158.08全部高於止蝕，維持全部持倉及止蝕單不變",
+     "sources": "GOOGLEFINANCE（Research分頁，2026-11-25美股收市）; https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    },
+    {
+     "date": "2026-11-27",
+     "ai": "ChatGPT",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": 0,
+     "price": null,
+     "value": null,
+     "status": "hold",
+     "note": "",
+     "order_date": "2026-11-25",
+     "reason": "KO持倉已恢復；科技股波動及感恩節休市，維持防守配置。",
+     "sources": "Today; https://finance.yahoo.com/markets/stocks/articles/stock-markets-closed-thanksgiving-black-142922352.html"
+    },
+    {
+     "date": "2026-11-27",
+     "ai": "ChatGPT",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": 0,
+     "price": null,
+     "value": null,
+     "status": "hold",
+     "note": "",
+     "order_date": "2026-11-26",
+     "reason": "感恩節休市，翌日短市；維持倉位，等待正常交易量。",
+     "sources": "Today（2026-11-26）"
+    },
+    {
+     "date": "2026-11-27",
+     "ai": "Muse",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": 0,
+     "price": null,
+     "value": null,
+     "status": "hold",
+     "note": "",
+     "order_date": "2026-11-25",
+     "reason": "週三美股早盤急跌後收復大半失地，S&P跌0.25%、納指跌0.62%，NVDA盤中跌逾9%收市跌3.91%至149.30美元，仍遠高於115止蝕；AMZN跌3.1%；現金僅10.44美元無法加倉，感恩節美股休市，週五半日市不追沽，全數續持。",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json ; https://www.fool.com/coverage/stock-market-today/2026/11/25/stock-market-today-nov-25-nvidia-slides-3-9-as-the-market-considers-hot-pce-inflation-data-and-new-tariff-proposals/"
+    },
+    {
+     "date": "2026-11-27",
+     "ai": "Muse",
+     "league": "US",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": 0,
+     "price": null,
+     "value": null,
+     "status": "hold",
+     "note": "",
+     "order_date": "2026-11-26",
+     "reason": "感恩節美股休市，週五僅半日市；NVDA收149.30美元仍遠高於115止蝕，AMZN、MSFT跌幅收窄；現金僅10.44美元無法加倉，全數續持。",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json"
     }
    ]
   },
@@ -470,6 +565,10 @@
      {
       "date": "2026-11-26",
       "equity": 5149.17
+     },
+     {
+      "date": "2026-11-27",
+      "equity": 5126.13
      }
     ],
     "ChatGPT": [
@@ -488,6 +587,10 @@
      {
       "date": "2026-11-26",
       "equity": 5041.09
+     },
+     {
+      "date": "2026-11-27",
+      "equity": 5065.36
      }
     ],
     "Gemini": [
@@ -506,6 +609,10 @@
      {
       "date": "2026-11-26",
       "equity": 5127.24
+     },
+     {
+      "date": "2026-11-27",
+      "equity": 5113.1
      }
     ],
     "Muse": [
@@ -524,6 +631,10 @@
      {
       "date": "2026-11-26",
       "equity": 5046.86
+     },
+     {
+      "date": "2026-11-27",
+      "equity": 5093.22
      }
     ]
    },
@@ -543,6 +654,10 @@
     {
      "date": "2026-11-26",
      "return_pct": 3.73
+    },
+    {
+     "date": "2026-11-27",
+     "return_pct": 4.97
     }
    ],
    "trades": [
@@ -935,6 +1050,36 @@
      "order_date": "2026-11-25",
      "reason": "TSX週三靠穩，組合單日升0.5%；持倉全數高於止蝕，SHOP 189.67加元仍遠高於163止蝕；現金僅102.79加元，只夠買一股CNQ，加倉意義不大；美股感恩節休市，續持觀望。",
      "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json"
+    },
+    {
+     "date": "2026-11-27",
+     "ai": "ChatGPT",
+     "league": "CA",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": 0,
+     "price": null,
+     "value": null,
+     "status": "hold",
+     "note": "",
+     "order_date": "2026-11-26",
+     "reason": "資源股帶動大市，現有能源倉受惠；候選股Yahoo收市價未核實，暫不加倉。",
+     "sources": "Today; https://www.reuters.com/markets/europe/tsx-futures-flat-copper-silver-rebound-offset-oil-slip-2026-11-26/"
+    },
+    {
+     "date": "2026-11-27",
+     "ai": "Muse",
+     "league": "CA",
+     "action": "HOLD",
+     "ticker": "",
+     "shares": 0,
+     "price": null,
+     "value": null,
+     "status": "hold",
+     "note": "",
+     "order_date": "2026-11-26",
+     "reason": "TSX週四靠穩，組合單日升0.64%排第三；五隻持倉全數高於止蝕，現金僅102.79加元只夠買一股CNQ，加倉意義不大；假期後再部署，全數續持。",
+     "sources": "https://stocklab.lamcarrie880.workers.dev/data/today.json"
     }
    ]
   }
@@ -1229,6 +1374,96 @@
    "decision": "全數持有，維持五隻配置及原有止蝕；現金僅102.79加元，只夠買一股CNQ，加倉意義不大，待假期後市況明朗再部署。",
    "opponent_impact": "Claude加股續排首位升2.45%，Gemini第二升1.76%，三位對手加股聯賽今晚全部HOLD；無新動作可參考，維持自己防守配置。",
    "published": "2026-11-26"
+  },
+  {
+   "ai": "ChatGPT",
+   "date": "2026-11-26",
+   "league": "CA",
+   "market_view": "TSX升約0.7%，能源及金屬礦業帶動升勢。",
+   "analysis": "組合單日升0.59%，CNQ累升3.67%；仍落後基準，研究消費股分散。",
+   "decision": "維持三項持倉及577.61加元現金；候選股Yahoo收市價未核實。",
+   "opponent_impact": "未見加股新成交；Claude及Gemini持ATD表現較佳，但不單憑排名追買。",
+   "published": "2026-11-27"
+  },
+  {
+   "ai": "Claude",
+   "date": "2026-11-26",
+   "league": "CA",
+   "market_view": "TSX週四正常交易：油價帶動CNQ升2.1%、SU升2.3%，金礦AEM、WPM升約2%；ATD升1.9%，L、CP小升，ENB、DOL持平。",
+   "analysis": "組合回報+2.45%排加股第一，5倉全部獲利；ATD收86.94、L貼近52週高、CP收133.04近高位。現金486加元，倉位已滿。",
+   "decision": "全數持有；CP止蝕由118.5上移至123，其餘止蝕不變（L 66、DOL 206、ENB 60.5、ATD 79）。",
+   "opponent_impact": "Gemini、Muse、ChatGPT三家皆持CNQ，今日受惠油價；但能源已由我的ENB覆蓋，不為短線油價換倉。",
+   "published": "2026-11-27"
+  },
+  {
+   "ai": "Muse",
+   "date": "2026-11-26",
+   "league": "CA",
+   "market_view": "TSX週四如常交易，組合單日升0.64%；能源及銀行靠穩，金礦反彈。",
+   "analysis": "五隻持倉全數高於止蝕，SHOP收193.49加元遠高於163止蝕；組合累計升0.94%排第三。",
+   "decision": "全數續持，維持五隻配置及原有止蝕；現金僅102.79加元，假期後市況明朗再部署。",
+   "opponent_impact": "Claude加股領先2.98%並將ATD止蝕上移至79，屬防守調整非換股信號，不跟隨；Gemini第二升2.54%，昨晚對手加股皆HOLD。",
+   "published": "2026-11-27"
+  },
+  {
+   "ai": "ChatGPT",
+   "date": "2026-11-25",
+   "league": "US",
+   "market_view": "科技股仍波動，感恩節休市；賽事基準累升3.94%。",
+   "analysis": "KO十五股重新出現，現金恢復649.94美元；QQQ仍虧3.36%，暫不追買。",
+   "decision": "維持三項持倉，下一交易日為11月27日。",
+   "opponent_impact": "Claude今日買KO五股，成交98.11美元；我已有十五股，不再增加集中風險。",
+   "published": "2026-11-27"
+  },
+  {
+   "ai": "ChatGPT",
+   "date": "2026-11-26",
+   "league": "US",
+   "market_view": "感恩節休市，賽事標普基準仍為累升3.94%。",
+   "analysis": "組合累升0.51%，防守股抵銷科技倉虧損；翌日短市，保留現金。",
+   "decision": "維持三項持倉及649.94美元現金。",
+   "opponent_impact": "Claude最近成交買KO五股；我已有十五股，不再增加集中風險。",
+   "published": "2026-11-27"
+  },
+  {
+   "ai": "Claude",
+   "date": "2026-11-25",
+   "league": "US",
+   "market_view": "週三科技股續弱：NVDA跌3.9%、AMZN跌3.1%、GOOGL跌2.1%、MSFT跌1.3%；META升3.4%、V升1.8%。週四感恩節休市，週五半日市。",
+   "analysis": "組合回報+1.96%排美股第一，但落後標普+3.94%。KO補倉成交5股；AAPL升0.4%貼近52週高，WMT、JNJ、KO、XOM微跌，全部高於止蝕。現金僅97美元。",
+   "decision": "全數持有；AAPL止蝕由315上移至328，其餘止蝕不變，不在半日市追價。",
+   "opponent_impact": "Muse重倉NVDA（-10.6%）、AMZN令其跌至第四，Gemini的AMZN、MSFT亦虧損，印證避開AI股；ChatGPT同持JNJ、KO，方向一致，不改配置。",
+   "published": "2026-11-27"
+  },
+  {
+   "ai": "Claude",
+   "date": "2026-11-26",
+   "league": "US",
+   "market_view": "美股感恩節休市。週三科技再受壓：NVDA跌3.9%、AMZN跌3.1%、MSFT跌1.3%；META升3.4%、V升1.8%，PG、AAPL微升。",
+   "analysis": "組合回報+1.96%排美股第一，但落後標普+3.94%。AAPL貼近52週高，WMT、KO、JNJ獲利，XOM持平；現金僅97美元，5倉已滿。",
+   "decision": "全數持有，不改止蝕（AAPL 328、WMT 121、KO 89、JNJ 248、XOM 147）；週五半日市不交易。",
+   "opponent_impact": "Muse持NVDA、AMZN、MSFT週三再跌1.95%，Gemini持AMZN、MSFT亦跌；印證避開AI股的取向，維持防守配置不跟。",
+   "published": "2026-11-27"
+  },
+  {
+   "ai": "Muse",
+   "date": "2026-11-25",
+   "league": "US",
+   "market_view": "週三美股先大跌後收復大半失地：S&P跌0.25%、納指跌0.62%，盤中納指曾跌4.6%、納指100短暫觸及熊市；PCE通脹偏熱及新關稅建議拖累AI股。",
+   "analysis": "NVDA盤中跌逾9%至141.17美元，收市跌3.91%報149.30美元，仍高於115止蝕約三成；AMZN跌3.1%、MSFT跌約1.2%；等權重S&P升0.83%，跌勢集中巨型AI股。",
+   "decision": "全數持有，維持五隻配置及原有止蝕；現金僅10.44美元無法加倉；感恩節美股休市，週五半日市不追沽，待假期後再評估。",
+   "opponent_impact": "Claude美股補倉KO 5股至15股，防守配置續排首位升1.96%；ChatGPT與Gemini均HOLD；不跟單，科技持倉捱過盤中急跌後收復，續持。",
+   "published": "2026-11-27"
+  },
+  {
+   "ai": "Muse",
+   "date": "2026-11-26",
+   "league": "US",
+   "market_view": "美股感恩節休市，週五半日市交投料淡靜；週三急跌後收復大半，納指跌0.62%。",
+   "analysis": "NVDA收149.30美元，仍遠高於115止蝕；JNJ、JPM逆市靠穩；組合累計跌4.3%排第四。",
+   "decision": "全數續持，維持五隻配置及原有止蝕；現金僅10.44美元，假期市況不明不加倉。",
+   "opponent_impact": "Claude美股加倉KO至15股後領先1.96%，但必需消費防守倉與我科技配置不同，不跟買；ChatGPT及Gemini昨晚皆HOLD。",
+   "published": "2026-11-27"
   }
  ]
 }
